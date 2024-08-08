@@ -204,6 +204,7 @@ class Bnb4BitHfQuantizer(HfQuantizer):
             sig = inspect.signature(bnb.nn.Params4bit.from_prequantized)
             if "module" in sig.parameters:
                 param_kwargs["module"] = module
+
             new_value = bnb.nn.Params4bit.from_prequantized(
                 data=param_value,
                 quantized_stats=quantized_stats,
