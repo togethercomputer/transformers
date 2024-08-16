@@ -200,17 +200,12 @@ class Bnb4BitHfQuantizer(HfQuantizer):
                     if unexpected_keys is not None and k in unexpected_keys:
                         unexpected_keys.remove(k)
 
-            param_kwargs = {}
-            sig = inspect.signature(bnb.nn.Params4bit.from_prequantized)
-            if "module" in sig.parameters:
-                param_kwargs["module"] = module
-
             new_value = bnb.nn.Params4bit.from_prequantized(
                 data=param_value,
                 quantized_stats=quantized_stats,
                 requires_grad=False,
                 device=target_device,
-                **param_kwargs,
+                module=module,
             )
         else:
             new_value = param_value.to("cpu")
